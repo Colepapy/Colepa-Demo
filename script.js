@@ -28,7 +28,7 @@ async function sendQuestion() {
 
   try {
     const res = await fetch(
-      'https://mgcapra314.app.n8n.cloud/prueba-de-webhook/ddbbf13a-4f89-490a-811f-c5f0b93a0311',
+      https://mgcapra314.app.n8n.cloud/prueba-de-webhook/84b3ae9d-bcf2-44e3-a40f-ca7a2dbf9b34,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
