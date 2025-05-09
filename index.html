@@ -1,26 +1,654 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>COLEPA - Consultas Legales</title>
-  <link rel="stylesheet" href="estilo.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COLEPA - Consulta de Leyes del Paraguay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0075BE; /* Azul bandera paraguaya */
+            --secondary-color: #D60270; /* Rojo bandera paraguaya */
+            --accent-color: #FFD700; /* Amarillo para detalles */
+            --text-color: #FFFFFF;
+            --bg-color: #111827;
+            --chat-bg: #1F2937;
+            --user-bubble: #374151;
+            --ai-bubble: #0B4F94;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--accent-color);
+            z-index: 1;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #ffffff, var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .logo-text span {
+            font-size: 1rem;
+            display: block;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 96px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .chat-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 25L62.5 43.3L56.7 50L56.7 75L43.3 75L43.3 50L37.5 43.3L50 25z' fill='%23FFFFFF' fill-opacity='0.03'/%3E%3C/svg%3E");
+            background-size: 100px 100px;
+            z-index: -1;
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin: auto;
+            max-width: 600px;
+            padding: 2rem;
+            background: rgba(31, 41, 55, 0.7);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-message h2 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .welcome-message p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-bottom: 20px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            max-width: 80%;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .ai-avatar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .message-content {
+            padding: 15px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .user-message .message-content {
+            background-color: var(--user-bubble);
+            border-top-right-radius: 4px;
+        }
+
+        .ai-message .message-content {
+            background-color: var(--ai-bubble);
+            border-top-left-radius: 4px;
+        }
+
+        .message-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            align-self: flex-end;
+            margin-top: 5px;
+        }
+
+        .input-container {
+            background-color: var(--chat-bg);
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .input-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent);
+        }
+
+        .input-form {
+            display: flex;
+            align-items: center;
+            background-color: var(--user-bubble);
+            border-radius: 24px;
+            padding: 0 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-form textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            padding: 15px 0;
+            font-size: 1rem;
+            resize: none;
+            height: 54px;
+            outline: none;
+        }
+
+        .input-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .suggestions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .suggestion-chip {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .suggestion-chip:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 10px 0;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .typing-dots {
+            display: flex;
+            margin-left: 8px;
+        }
+
+        .typing-dot {
+            width: 5px;
+            height: 5px;
+            background-color: currentColor;
+            border-radius: 50%;
+            margin-right: 3px;
+            animation: typingAnimation 1.5s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes typingAnimation {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilos paraguayos decorativos */
+        .paraguayan-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L35 12.5L30 20L25 12.5L30 5Z' fill='%23D60270' fill-opacity='0.03'/%3E%3C/svg%3E");
+            background-size: 60px 60px;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        /* Estilos para el footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 1.7rem;
+            }
+            
+            .logo-text span {
+                font-size: 0.8rem;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .suggestions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo img {
+                height: 40px;
+            }
+            
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            
+            .welcome-message h2 {
+                font-size: 1.5rem;
+            }
+            
+            .avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="chat-container">
-    <h1>🧠 COLEPA - Asistente Legal</h1>
-    <div id="chat-box" class="chat-box"></div>
-    <form id="chat-form" class="chat-form">
-      <input
-        type="text"
-        id="chat-input"
-        placeholder="Escribí tu consulta legal aquí..."
-        autocomplete="off"
-      />
-      <button type="submit">Enviar</button>
-    </form>
-  </div>
+    <div class="paraguayan-pattern"></div>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <!-- Placeholder for logo - could be replaced with actual image -->
+                <div style="font-size: 1.8rem; margin-right: 10px;">🇵🇾</div>
+                <div class="logo-text">
+                    COLEPA
+                    <span>Consulta de Leyes del Paraguay</span>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  <script src="script.js"></script>
+    <main class="main">
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-message">
+                <h2>Bienvenido a COLEPA</h2>
+                <p>¡Hola! Soy tu asistente legal paraguayo. Estoy aquí para ayudarte a encontrar información sobre leyes y normativas vigentes en Paraguay.</p>
+                <p>Podés hacerme cualquier consulta legal y te responderé basándome en la legislación paraguaya actualizada.</p>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be added here dynamically -->
+            </div>
+        </div>
+
+        <div class="input-container">
+            <form class="input-form" id="messageForm">
+                <textarea 
+                    id="userInput" 
+                    placeholder="Haceme tu consulta legal aquí..." 
+                    rows="1"
+                    aria-label="Mensaje"></textarea>
+                <button type="submit" class="send-btn" id="sendBtn" aria-label="Enviar mensaje">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+            <div class="suggestions">
+                <div class="suggestion-chip">¿Cuál es la ley laboral vigente?</div>
+                <div class="suggestion-chip">Derecho a la propiedad privada</div>
+                <div class="suggestion-chip">Requisitos para constituir una empresa</div>
+                <div class="suggestion-chip">Derechos del consumidor</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 COLEPA - Consulta de Leyes del Paraguay. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chatContainer');
+            const chatMessages = document.getElementById('chatMessages');
+            const messageForm = document.getElementById('messageForm');
+            const userInput = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const suggestionChips = document.querySelectorAll('.suggestion-chip');
+
+            // Auto-resize the textarea based on content
+            userInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+                if (this.scrollHeight > 150) {
+                    this.style.height = '150px';
+                    this.style.overflowY = 'auto';
+                } else {
+                    this.style.overflowY = 'hidden';
+                }
+            });
+
+            // Handle form submission
+            messageForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const message = userInput.value.trim();
+                if (message) {
+                    addMessage(message, 'user');
+                    processUserMessage(message);
+                    userInput.value = '';
+                    userInput.style.height = '54px'; // Reset height
+                }
+            });
+
+            // Handle suggestion clicks
+            suggestionChips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    const suggestion = this.textContent;
+                    userInput.value = suggestion;
+                    userInput.focus();
+                    // Trigger input event to adjust height
+                    const inputEvent = new Event('input', { bubbles: true });
+                    userInput.dispatchEvent(inputEvent);
+                });
+            });
+
+            // Add a message to the chat
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = `avatar ${sender}-avatar`;
+                
+                if (sender === 'user') {
+                    avatar.innerHTML = '<i class="fas fa-user"></i>';
+                } else {
+                    avatar.innerHTML = '<i class="fas fa-balance-scale"></i>';
+                }
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                
+                // Format the message with paragraphs
+                const formattedText = text.split('\n').map(line => {
+                    if (line.trim() === '') return '<br>';
+                    return `<p>${line}</p>`;
+                }).join('');
+                
+                contentDiv.innerHTML = formattedText;
+                
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'message-time';
+                
+                const now = new Date();
+                timeDiv.textContent = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                
+                contentDiv.appendChild(timeDiv);
+                
+                if (sender === 'user') {
+                    messageDiv.appendChild(contentDiv);
+                    messageDiv.appendChild(avatar);
+                } else {
+                    messageDiv.appendChild(avatar);
+                    messageDiv.appendChild(contentDiv);
+                }
+                
+                chatMessages.appendChild(messageDiv);
+                
+                // Scroll to the bottom of the chat
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // Remove welcome message if it exists
+                const welcomeMessage = document.querySelector('.welcome-message');
+                if (welcomeMessage) {
+                    welcomeMessage.remove();
+                }
+            }
+
+            // Show typing indicator
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message ai-message typing-message';
+                typingDiv.id = 'typingIndicator';
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'avatar ai-avatar';
+                avatar.innerHTML = '<i class="fas fa-balance-scale"></i>';
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'typing-indicator';
+                contentDiv.innerHTML = 'Consultando leyes paraguayas';
+                
+                const dotsDiv = document.createElement('div');
+                dotsDiv.className = 'typing-dots';
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'typing-dot';
+                    dotsDiv.appendChild(dot);
+                }
+                
+                contentDiv.appendChild(dotsDiv);
+                typingDiv.appendChild(avatar);
+                typingDiv.appendChild(contentDiv);
+                
+                chatMessages.appendChild(typingDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // Remove typing indicator
+            function removeTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            // Process user message and get AI response
+            function processUserMessage(message) {
+                // Disable input while processing
+                userInput.disabled = true;
+                sendBtn.disabled = true;
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Simulate AI thinking/processing time
+                setTimeout(() => {
+                    // Here you would normally make an API call to your backend RAG system
+                    // For demo purposes, we'll use canned responses based on keywords
+                    
+                    let aiResponse;
+                    const lowercaseMsg = message.toLowerCase();
+                    
+                    if (lowercaseMsg.includes('laboral') || lowercaseMsg.includes('trabajo')) {
+                        aiResponse = `El Código del Trabajo (Ley N° 213/93) es la principal normativa laboral en Paraguay, modificada por la Ley N° 496/95.\n\nEstablece las relaciones entre trabajadores y empleadores, incluyendo:\n- Jornada laboral de 8 horas diarias o 48 semanales\n- Derecho a aguinaldo (salario adicional en diciembre)\n- Vacaciones remuneradas (12 días corridos para trabajadores con hasta 5 años de antigüedad)\n- Protección contra el despido injustificado\n\n¿Necesitás información sobre algún aspecto específico de la legislación laboral paraguaya?`;
+                    } else if (lowercaseMsg.includes('propiedad') || lowercaseMsg.includes('inmueble')) {
+                        aiResponse = `El derecho a la propiedad privada está consagrado en el Artículo 109 de la Constitución Nacional del Paraguay de 1992.\n\nLa Ley N° 1.183/85 "Código Civil" regula los aspectos relativos a la propiedad inmueble, incluyendo:\n- Formas de adquisición y transferencia\n- Registro de propiedades en la Dirección General de los Registros Públicos\n- Limitaciones al dominio\n- Servidumbres y usufructo\n\nPara registrar una propiedad en Paraguay, se requiere escritura pública otorgada ante escribano y su posterior inscripción en los Registros Públicos.`;
+                    } else if (lowercaseMsg.includes('empresa') || lowercaseMsg.includes('negocio')) {
+                        aiResponse = `Para constituir una empresa en Paraguay, según la Ley N° 1.034/83 "Del Comerciante", se deben seguir estos pasos:\n\n1. Elegir el tipo societario (S.A., S.R.L., E.I.R.L., etc.)\n2. Redactar los estatutos sociales ante Escribano Público\n3. Inscribir la sociedad en la Dirección General de los Registros Públicos\n4. Obtener el Registro Único del Contribuyente (RUC) en la SET\n5. Registrarse en el Ministerio de Trabajo, Empleo y Seguridad Social\n6. Inscribirse en el Instituto de Previsión Social (IPS)\n\nLa Ley N° 6.480/2020 "Que crea la Empresa por Acciones Simplificadas (EAS)" ofrece un proceso simplificado para emprendedores.`;
+                    } else if (lowercaseMsg.includes('consumidor') || lowercaseMsg.includes('cliente')) {
+                        aiResponse = `Los derechos del consumidor en Paraguay están protegidos por la Ley N° 1.334/98 "De Defensa del Consumidor y del Usuario".\n\nLos principales derechos incluyen:\n- Protección de la salud y seguridad\n- Información clara sobre productos y servicios\n- Libertad de elección\n- Trato equitativo y digno\n- Reparación por daños y perjuicios\n\nLa autoridad de aplicación es la SEDECO (Secretaría de Defensa del Consumidor), donde podés presentar denuncias por incumplimientos o abusos. Las reclamaciones deben presentarse dentro de los 5 días hábiles de ocurrido el hecho.`;
+                    } else if (lowercaseMsg.includes('penal') || lowercaseMsg.includes('delito')) {
+                        aiResponse = `El sistema penal paraguayo se rige principalmente por:\n\n- Ley N° 1.160/97 "Código Penal"\n- Ley N° 1.286/98 "Código Procesal Penal"\n\nEl Código Penal tipifica los hechos punibles y establece las sanciones correspondientes, mientras que el Código Procesal Penal regula el procedimiento para la investigación y juzgamiento.\n\nEl Ministerio Público es el órgano encargado de ejercer la acción penal pública. Los procesos penales en Paraguay son orales y públicos desde la reforma procesal de 1998.\n\nPara casos específicos, te recomendaría consultar con un abogado especializado en derecho penal.`;
+                    } else {
+                        aiResponse = `Gracias por tu consulta sobre la legislación paraguaya. Para brindarte información precisa, necesitaría más detalles sobre tu duda legal específica.\n\nPuedo informarte sobre diversas áreas del derecho paraguayo como:\n- Derecho Civil y Comercial\n- Derecho Laboral\n- Derecho Tributario\n- Derecho Penal\n- Derecho Administrativo\n- Derecho Constitucional\n\n¿Podrías especificar un poco más tu consulta legal para ayudarte mejor?`;
+                    }
+                    
+                    // Remove typing indicator and add AI response
+                    removeTypingIndicator();
+                    addMessage(aiResponse, 'ai');
+                    
+                    // Re-enable input
+                    userInput.disabled = false;
+                    sendBtn.disabled = false;
+                    userInput.focus();
+                    
+                }, Math.random() * 1000 + 1500); // Random delay between 1.5-2.5 seconds
+            }
+
+            // Focus on input field when page loads
+            userInput.focus();
+        });
+    </script>
 </body>
 </html>
