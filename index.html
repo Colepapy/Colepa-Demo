@@ -169,7 +169,9 @@
     </main>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const WEBHOOK_URL = 'https://mgcapra314.app.n8n.cloud/webhook/consulta-ley';
+            // === Aquí está la URL correcta de tu webhook ===
+            const WEBHOOK_URL = 'https://mgcapra314.app.n8n.cloud/webhook/84b3ae9d-bcf2-44e3-a40f-ca7a2dbf9b34';
+
             const chatContainer = document.getElementById('chatContainer');
             const chatMessages = document.getElementById('chatMessages');
             const welcomeMessage = document.getElementById('welcomeMessage');
@@ -238,34 +240,38 @@
                 if (t) t.remove();
             }
 
+            // === Función que envía la pregunta al webhook y espera la respuesta ===
+            async function enviarPreguntaAlServidor(pregunta) {
+                const respuesta = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pregunta: pregunta })
+                });
+                const datos = await respuesta.json();
+                return datos.respuesta;
+            }
+
             function processUserMessage(message) {
                 userInput.disabled = true;
                 sendBtn.disabled = true;
                 addMessage(message, 'user');
                 showTyping();
-                fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ question: message })
-                })
-                .then(res => {
-                    if (!res.ok) throw new Error('HTTP ' + res.status);
-                    return res.json();
-                })
-                .then(data => {
-                    removeTyping();
-                    addMessage(data.answer || 'Sin respuesta del agente.', 'ai');
-                })
-                .catch(err => {
-                    console.error(err);
-                    removeTyping();
-                    addMessage('⚠️ Error al conectar con el agente.', 'ai');
-                })
-                .finally(() => {
-                    userInput.disabled = false;
-                    sendBtn.disabled = false;
-                    userInput.focus();
-                });
+
+                enviarPreguntaAlServidor(message)
+                    .then(texto => {
+                        removeTyping();
+                        addMessage(texto || 'Sin respuesta del agente.', 'ai');
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        removeTyping();
+                        addMessage('⚠️ Error al conectar con el agente.', 'ai');
+                    })
+                    .finally(() => {
+                        userInput.disabled = false;
+                        sendBtn.disabled = false;
+                        userInput.focus();
+                    });
             }
 
             messageForm.addEventListener('submit', e => {
