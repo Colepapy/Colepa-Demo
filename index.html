@@ -1,3 +1,4 @@
+<!-- Archivo: colepa.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -168,7 +169,7 @@
     </main>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const WEBHOOK_URL = 'https://mgcapra314.app.n8n.cloud/webhook/4ceb34c9-02a4-4f69-8eaf-b74f7cb8485c';
+            const WEBHOOK_URL = 'https://mgcapra314.app.n8n.cloud/webhook/consulta-ley';
             const chatContainer = document.getElementById('chatContainer');
             const chatMessages = document.getElementById('chatMessages');
             const welcomeMessage = document.getElementById('welcomeMessage');
@@ -240,6 +241,7 @@
             function processUserMessage(message) {
                 userInput.disabled = true;
                 sendBtn.disabled = true;
+                addMessage(message, 'user');
                 showTyping();
                 fetch(WEBHOOK_URL, {
                     method: 'POST',
