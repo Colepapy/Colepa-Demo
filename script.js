@@ -1,4 +1,4 @@
-const webhookURL = "https://mgcapra314.app.n8n.cloud/webhook/4ceb34c9-02a4-4f69-8eaf-b74f7cb8485c";
+const webhookURL ='https://mgcapra314.app.n8n.cloud/webhook/4ceb34c9-02a4-4f69-8eaf-b74f7cb8485c';
 
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
