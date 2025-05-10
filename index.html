@@ -1,295 +1,38 @@
-<!-- Archivo: colepa.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COLEPA - Consulta de Leyes del Paraguay</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #0075BE;
-            --secondary-color: #D60270;
-            --accent-color: #FFD700;
-            --text-color: #FFFFFF;
-            --bg-color: #111827;
-            --chat-bg: #1F2937;
-            --user-bubble: #374151;
-            --ai-bubble: #0B4F94;
-        }
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        .container {
-            max-width: 1200px; margin: 0 auto; padding: 0 20px;
-        }
-        header {
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            padding: 1.5rem 0; position: relative;
-        }
-        header::before {
-            content: ''; position: absolute;
-            top: 0; left: 0; right: 0; height: 5px;
-            background: var(--accent-color);
-        }
-        .logo-text {
-            font-size: 2rem; font-weight: 800;
-            background: linear-gradient(to right, #fff, var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .main {
-            display: flex; flex-direction: column;
-            height: calc(100vh - 96px); overflow: hidden;
-        }
-        .chat-container {
-            flex: 1; display: flex; flex-direction: column;
-            padding: 20px; overflow-y: auto; position: relative;
-        }
-        .welcome-message {
-            text-align: center; margin: auto;
-            max-width: 600px; padding: 2rem;
-            background: rgba(31,41,55,0.7);
-            border-radius: 16px;
-        }
-        .chat-messages {
-            display: flex; flex-direction: column;
-            gap: 20px; padding-bottom: 20px;
-        }
-        .message {
-            display: flex; align-items: flex-start;
-            max-width: 80%;
-        }
-        .user-message {
-            align-self: flex-end; flex-direction: row-reverse;
-        }
-        .ai-message {
-            align-self: flex-start;
-        }
-        .avatar {
-            width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 10px; flex-shrink: 0;
-        }
-        .user-avatar {
-            background-color: var(--primary-color);
-        }
-        .ai-avatar {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        }
-        .message-content {
-            padding: 15px; border-radius: 18px;
-            font-size: 0.95rem; line-height: 1.5; position: relative;
-        }
-        .user-message .message-content {
-            background-color: var(--user-bubble);
-        }
-        .ai-message .message-content {
-            background-color: var(--ai-bubble);
-        }
-        .message-time {
-            font-size: 0.7rem; opacity: 0.7; margin-top: 5px;
-        }
-        .input-container {
-            background-color: var(--chat-bg);
-            padding: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .input-form {
-            display: flex; align-items: center;
-            background-color: var(--user-bubble);
-            border-radius: 24px; padding: 0 20px;
-        }
-        .input-form textarea {
-            flex: 1; background: transparent; border: none;
-            color: var(--text-color); padding: 15px 0;
-            font-size: 1rem; height: 54px; resize: none;
-            outline: none;
-        }
-        .send-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: #fff; border: none;
-            width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-        }
-        .send-btn:disabled {
-            opacity: 0.5; cursor: not-allowed;
-        }
-        .typing-indicator {
-            display: flex; padding: 10px 0; align-items: center;
-            color: rgba(255,255,255,0.7);
-        }
-        .typing-dots {
-            display: flex; margin-left: 8px;
-        }
-        .typing-dot {
-            width: 5px; height: 5px; background-color: currentColor;
-            border-radius: 50%; margin-right: 3px;
-            animation: typingAnimation 1.5s infinite ease-in-out;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.3s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.6s; }
-        @keyframes typingAnimation {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>COLEPA - Consulta de Leyes del Paraguay</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 </head>
 <body>
-    <header>
-        <div class="container logo-text">
-            COLEPA - Consulta de Leyes del Paraguay
-        </div>
-    </header>
-    <main class="main">
-        <div class="chat-container" id="chatContainer">
-            <div class="welcome-message" id="welcomeMessage">
-                <h2>Bienvenido a COLEPA</h2>
-                <p>¡Hola! Soy tu asistente legal paraguayo. Hacé tu consulta legal aquí.</p>
-            </div>
-            <div class="chat-messages" id="chatMessages"></div>
-        </div>
-        <div class="input-container">
-            <form class="input-form" id="messageForm">
-                <textarea id="userInput" placeholder="Haceme tu consulta legal aquí..." rows="1"></textarea>
-                <button type="submit" class="send-btn" id="sendBtn">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </form>
-        </div>
-    </main>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // === Aquí está la URL correcta de tu webhook ===
-            const WEBHOOK_URL = 'https://mgcapra314.app.n8n.cloud/webhook/84b3ae9d-bcf2-44e3-a40f-ca7a2dbf9b34';
+  <header>
+    <div class="container logo-text">
+      COLEPA - Consulta de Leyes del Paraguay
+    </div>
+  </header>
 
-            const chatContainer = document.getElementById('chatContainer');
-            const chatMessages = document.getElementById('chatMessages');
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            const messageForm = document.getElementById('messageForm');
-            const userInput = document.getElementById('userInput');
-            const sendBtn = document.getElementById('sendBtn');
+  <main class="main">
+    <div class="chat-container" id="chatContainer">
+      <div class="welcome-message" id="welcomeMessage">
+        <h2>Bienvenido a COLEPA</h2>
+        <p>¡Hola! Soy tu asistente legal paraguayo. Hacé tu consulta legal aquí.</p>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+    </div>
 
-            function addMessage(text, sender) {
-                const msgDiv = document.createElement('div');
-                msgDiv.className = `message ${sender}-message`;
-                const avatar = document.createElement('div');
-                avatar.className = `avatar ${sender}-avatar`;
-                avatar.innerHTML = sender === 'user'
-                    ? '<i class="fas fa-user"></i>'
-                    : '<i class="fas fa-balance-scale"></i>';
+    <div class="input-container">
+      <form class="input-form" id="messageForm">
+        <textarea id="userInput" placeholder="Haceme tu consulta legal aquí..." rows="1"></textarea>
+        <button type="submit" class="send-btn" id="sendBtn">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </main>
 
-                const content = document.createElement('div');
-                content.className = 'message-content';
-                content.innerHTML = text
-                    .split('\n')
-                    .map(l => `<p>${l}</p>`)
-                    .join('');
-
-                const time = document.createElement('div');
-                time.className = 'message-time';
-                const now = new Date();
-                time.textContent = `${now.getHours()}:${now.getMinutes().toString().padStart(2,'0')}`;
-                content.appendChild(time);
-
-                if (sender === 'user') {
-                    msgDiv.append(content, avatar);
-                } else {
-                    msgDiv.append(avatar, content);
-                }
-
-                chatMessages.appendChild(msgDiv);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-                if (welcomeMessage) welcomeMessage.remove();
-            }
-
-            function showTyping() {
-                const typing = document.createElement('div');
-                typing.id = 'typing';
-                typing.className = 'message ai-message typing-message';
-                const avatar = document.createElement('div');
-                avatar.className = 'avatar ai-avatar';
-                avatar.innerHTML = '<i class="fas fa-balance-scale"></i>';
-                const indicator = document.createElement('div');
-                indicator.className = 'typing-indicator';
-                indicator.textContent = 'Consultando leyes paraguayas';
-                const dots = document.createElement('div');
-                dots.className = 'typing-dots';
-                [0,1,2].forEach(() => {
-                    const dot = document.createElement('div');
-                    dot.className = 'typing-dot';
-                    dots.appendChild(dot);
-                });
-                indicator.appendChild(dots);
-                typing.append(avatar, indicator);
-                chatMessages.appendChild(typing);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }
-
-            function removeTyping() {
-                const t = document.getElementById('typing');
-                if (t) t.remove();
-            }
-
-            // === Función que envía la pregunta al webhook y espera la respuesta ===
-            async function enviarPreguntaAlServidor(pregunta) {
-                const respuesta = await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ pregunta: pregunta })
-                });
-                const datos = await respuesta.json();
-                return datos.respuesta;
-            }
-
-            function processUserMessage(message) {
-                userInput.disabled = true;
-                sendBtn.disabled = true;
-                addMessage(message, 'user');
-                showTyping();
-
-                enviarPreguntaAlServidor(message)
-                    .then(texto => {
-                        removeTyping();
-                        addMessage(texto || 'Sin respuesta del agente.', 'ai');
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        removeTyping();
-                        addMessage('⚠️ Error al conectar con el agente.', 'ai');
-                    })
-                    .finally(() => {
-                        userInput.disabled = false;
-                        sendBtn.disabled = false;
-                        userInput.focus();
-                    });
-            }
-
-            messageForm.addEventListener('submit', e => {
-                e.preventDefault();
-                const msg = userInput.value.trim();
-                if (msg) {
-                    userInput.value = '';
-                    processUserMessage(msg);
-                }
-            });
-
-            userInput.addEventListener('input', () => {
-                userInput.style.height = 'auto';
-                userInput.style.height = `${userInput.scrollHeight}px`;
-            });
-
-            userInput.focus();
-        });
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
