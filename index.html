@@ -7,16 +7,22 @@
   <link rel="stylesheet" href="estilo.css" />
 </head>
 <body>
-  <div class="app-container">
-    <header>
-      <h1>COLEPA - Consulta de Leyes del Paraguay</h1>
-    </header>
-    <div class="chat-window" id="chat-box"></div>
-    <form id="chat-form" class="input-area">
-      <input type="text" id="chat-input" placeholder="Escribí tu consulta legal..." autocomplete="off"/>
-      <button type="submit">Enviar</button>
-    </form>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Flag_of_Paraguay.svg/640px-Flag_of_Paraguay.svg.png" alt="Bandera del Paraguay" />
+    <div>
+      <div class="logo-text">COLEPA</div>
+      <div class="subtitulo">Consulta de leyes del Paraguay</div>
+    </div>
+  </header>
+
+  <div class="chat-window" id="chatBox">
+    <!-- Mensajes aquí -->
   </div>
+
+  <form class="input-area" id="chat-form">
+    <input type="text" id="chat-input" placeholder="Hacé tu consulta legal aquí..." />
+    <button type="submit">Enviar</button>
+  </form>
 
   <script src="script.js"></script>
 </body>
