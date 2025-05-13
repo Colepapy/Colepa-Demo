@@ -1,53 +1,53 @@
-const WEBHOOK_URL = 'https://mgcapra314.app.n8n.cloud/webhook/a4d322f3-78e1-434d-b81c-c78e302b1932';
+const webhookURL = 'https://mgcapra314.app.n8n.cloud/webhook/a4d322f3-78e1-434d-b81c-c78e302b1932';
 
-// Generar un ID único de sesión para mantener contexto
-let sessionId = localStorage.getItem('colepa_session_id');
-if (!sessionId) {
-    sessionId = crypto.randomUUID();
-    localStorage.setItem('colepa_session_id', sessionId);
+const chatForm = document.getElementById("chat-form");
+const chatInput = document.getElementById("chat-input");
+const chatBox = document.getElementById("chat-box");
+
+// Agrega un mensaje al chat
+function addMessage(sender, text) {
+  const message = document.createElement("div");
+  message.classList.add("message", sender);
+  message.innerText = text;
+  chatBox.appendChild(message);
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-const chatContainer = document.getElementById("chat");
-const userInput = document.getElementById("user-input");
-const sendButton = document.getElementById("send-button");
+// Maneja el envío del formulario
+chatForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const userInput = chatInput.value.trim();
+  if (userInput === "") return;
 
-function appendMessage(sender, text) {
-    const messageElement = document.createElement("div");
-    messageElement.classList.add("message", sender);
-    messageElement.innerText = text;
-    chatContainer.appendChild(messageElement);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-}
+  addMessage("user", userInput);
+  chatInput.value = "";
+  addMessage("bot", "⏳ Consultando...");
 
-sendButton.addEventListener("click", async () => {
-    const pregunta = userInput.value.trim();
-    if (!pregunta) return;
+  try {
+    const response = await fetch(webhookURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ pregunta: userInput })
+    });
 
-    appendMessage("user", pregunta);
-    userInput.value = "";
+    const data = await response.json();
 
-    appendMessage("bot", "Pensando...");
+    // Elimina el mensaje de "Consultando..."
+    const thinkingMsg = chatBox.querySelector(".bot:last-child");
+    if (thinkingMsg) thinkingMsg.remove();
 
-    try {
-        const response = await fetch(WEBHOOK_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                pregunta: pregunta,
-                sessionId: sessionId
-            })
-        });
-
-        const data = await response.json();
-
-        const botResponses = document.querySelectorAll(".message.bot");
-        if (botResponses.length > 0) {
-            botResponses[botResponses.length - 1].remove(); // eliminar "Pensando..."
-        }
-
-        appendMessage("bot", data.respuesta || "No entendí tu pregunta.");
-    } catch (error) {
-        console.error("Error:", error);
-        appendMessage("bot", "Ocurrió un error al procesar tu pregunta.");
+    if (data.respuesta) {
+      addMessage("bot", data.respuesta);
+    } else {
+      addMessage("bot", "⚠️ No se obtuvo respuesta del agente.");
     }
+  } catch (error) {
+    const thinkingMsg = chatBox.querySelector(".bot:last-child");
+    if (thinkingMsg) thinkingMsg.remove();
+    addMessage("bot", "❌ Error al conectar con el agente.");
+    console.error("Error:", error);
+  }
 });
+
