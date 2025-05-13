@@ -1,48 +1,27 @@
-const WEBHOOK_URL = 'https://mgcapra314.app.n8n.cloud/webhook/a4d322f3-78e1-434d-b81c-c78e302b1932';
+<script>
+  async function enviarConsultaALaIA(pregunta, sessionId) {
+    try {
+      const response = await fetch("https://tu-n8n.vercel.app/webhook/colepa?sessionId=" + sessionId + "&message=" + encodeURIComponent(pregunta), {
+        method: "GET"
+      });
 
-const chatForm = document.getElementById("chat-form");
-const chatInput = document.getElementById("chat-input");
-const chatBox = document.getElementById("chatBox");
+      const data = await response.json();
 
-function addMessage(sender, text) {
-  const message = document.createElement("div");
-  message.classList.add("message", sender);
-  message.innerText = text;
-  chatBox.appendChild(message);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-chatForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const userInput = chatInput.value.trim();
-  if (userInput === "") return;
-
-  addMessage("user", userInput);
-  chatInput.value = "";
-  addMessage("bot", "⏳ Consultando...");
-
-  try {
-    const response = await fetch(WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pregunta: userInput })
-    });
-
-    const data = await response.json();
-
-    // Quitar "consultando..."
-    const pending = chatBox.querySelector(".bot:last-child");
-    if (pending) pending.remove();
-
-    if (data.respuesta) {
-      addMessage("bot", data.respuesta);
-    } else {
-      addMessage("bot", "⚠️ No hubo respuesta del agente.");
+      if (data.respuesta) {
+        console.log("Respuesta de la IA:", data.respuesta);
+        // Aquí podés mostrar la respuesta en la página
+        document.getElementById("respuesta").innerText = data.respuesta;
+      } else {
+        throw new Error("Respuesta inválida");
+      }
+    } catch (error) {
+      console.error("Error al consultar la IA:", error);
+      document.getElementById("respuesta").innerText = "Lo siento, ha ocurrido un error al procesar tu consulta. Por favor, intenta nuevamente más tarde.";
     }
-  } catch (error) {
-    const pending = chatBox.querySelector(".bot:last-child");
-    if (pending) pending.remove();
-    addMessage("bot", "❌ Error al conectar con el agente.");
-    console.error("Error:", error);
   }
-});
+
+  // 👇 Esto lo podés reemplazar con lo que el usuario escriba en un formulario
+  enviarConsultaALaIA("¿Qué dice el artículo 1 del Código Civil?", "cliente_123");
+</script>
+
+<div id="respuesta"></div>
