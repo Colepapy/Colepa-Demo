@@ -1,35 +1,551 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>COLEPA - Consulta Legal</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      background-color: #f7f7f7;
-    }
-    #respuesta {
-      margin-top: 1rem;
-      padding: 1rem;
-      background-color: #e8f0fe;
-      border-radius: 6px;
-      white-space: pre-wrap;
-    }
-    input, button {
-      padding: 0.5rem;
-      font-size: 16px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COLEPA - Consulta de Leyes del Paraguay</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCI+CiAgPHN0eWxlPgogICAgLnJlZCB7IGZpbGw6ICNENTIwMkM7IH0KICAgIC5ibHVlIHsgZmlsbDogIzAwMkQ2MjsgfQogICAgLndoaXRlIHsgZmlsbDogI0ZGRkZGRjsgfQogIDwvc3R5bGU+CiAgPHJlY3QgY2xhc3M9InJlZCIgeD0iMCIgeT0iMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI2LjY2NiIvPgogIDxyZWN0IGNsYXNzPSJ3aGl0ZSIgeD0iMCIgeT0iMjYuNjY2IiB3aWR0aD0iODAiIGhlaWdodD0iMjYuNjY2Ii8+CiAgPHJlY3QgY2xhc3M9ImJsdWUiIHg9IjAiIHk9IjUzLjMzMiIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI2LjY2NiIvPgogIDxjaXJjbGUgY3g9IjQwIiBjeT0iNDAiIHI9IjE2IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiNEQkQ2MDAiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGNsYXNzPSJibHVlIiBkPSJNNDUgMzJMMzUgNDhINDVMNDAgMzJaIi8+CiAgPHRleHQgeD0iNDAiIHk9IjcwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iOCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNGRkZGRkYiPkNPTEVQQTwvdGV4dD4KPC9zdmc+">
+
+    <style>
+        :root {
+            --primary-color: #D5202C;
+            --secondary-color: #002D62;
+            --accent-color: #DBD600;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #212529;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 4px solid var(--accent-color);
+            box-shadow: var(--shadow);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .flag-pattern {
+            height: 8px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary-color) 33%, white 33%, white 66%, var(--secondary-color) 66%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: bold;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-header-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-height: 400px;
+            max-height: 60vh;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            position: relative;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background-color: #f1f1f1;
+            color: var(--text-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+            position: relative;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 24px;
+            font-size: 16px;
+            resize: none;
+            overflow-y: auto;
+            max-height: 150px;
+            transition: var(--transition);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(0, 45, 98, 0.2);
+        }
+
+        .send-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .send-button:hover {
+            background-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .send-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 15px;
+            color: #666;
+        }
+
+        .loading span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            font-size: 0.9rem;
+            margin-top: 30px;
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Estilos para los mensajes de error */
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+            border-left: 4px solid #c62828;
+        }
+
+        /* Estilo para resaltar términos legales */
+        .legal-term {
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        /* Estilos para citas de leyes */
+        .law-citation {
+            background-color: rgba(219, 214, 0, 0.1);
+            border-left: 3px solid var(--accent-color);
+            padding: 10px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        
+        /* Animación para el logo del chat */
+        .chat-logo-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Consultar a COLEPA</h1>
-  <input type="text" id="pregunta" placeholder="Escribe tu consulta legal..." size="50" />
-  <button onclick="enviarConsulta()">Consultar</button>
+    <div class="header">
+        <div class="logo-container">
+            <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+                <style>
+                    .red { fill: #D5202C; }
+                    .blue { fill: #002D62; }
+                    .white { fill: #FFFFFF; }
+                </style>
+                <rect class="red" x="0" y="0" width="80" height="26.666"/>
+                <rect class="white" x="0" y="26.666" width="80" height="26.666"/>
+                <rect class="blue" x="0" y="53.332" width="80" height="26.666"/>
+                <circle cx="40" cy="40" r="16" fill="#FFFFFF" stroke="#DBD600" stroke-width="2"/>
+                <path class="blue" d="M45 32L35 48H45L40 32Z"/>
+                <text x="40" y="70" font-family="Arial" font-size="8" font-weight="bold" text-anchor="middle" fill="#FFFFFF">COLEPA</text>
+            </svg>
+            <div>
+                <h1 class="title">COLEPA</h1>
+                <p class="subtitle">Consulta de Leyes del Paraguay</p>
+            </div>
+        </div>
+    </div>
+    <div class="flag-pattern"></div>
 
-  <div id="respuesta"></div>
+    <div class="container">
+        <div class="chat-container">
+            <div class="chat-header">
+                <span class="chat-header-icon">💬</span>
+                Consulta sobre leyes paraguayas
+            </div>
+            <div class="messages" id="messages">
+                <!-- Mensaje inicial del bot -->
+                <div class="message bot-message">
+                    <div>¡Hola! Soy el asistente legal de COLEPA. Estoy aquí para ayudarte con información sobre las leyes paraguayas. ¿En qué puedo asistirte hoy?</div>
+                    <div class="message-time">Ahora</div>
+                </div>
+            </div>
+            <div class="input-container">
+                <textarea id="user-input" class="input-field" placeholder="Escribe tu consulta sobre leyes paraguayas..." rows="1"></textarea>
+                <button id="send-button" class="send-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
-  <script src="script.js"></script>
+    <div class="footer">
+        <p>COLEPA &copy; 2025 - Consulta de Leyes del Paraguay | Desarrollado con <span style="color: var(--primary-color);">♥</span> en Paraguay</p>
+        <p>Esta es una versión beta. La información proporcionada no sustituye el asesoramiento legal profesional.</p>
+    </div>
+
+    <script>
+        // Elementos del DOM
+        const messagesContainer = document.getElementById('messages');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        
+        // URL del webhook de N8N ya configurada
+        const webhookUrl = 'https://mgcapra314.app.n8n.cloud/webhook/a4d322f3-78e1-434d-b81c-c78e302b1932';
+        
+        // Auto-resize para el textarea
+        userInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            if (this.scrollHeight > 150) {
+                this.style.overflowY = 'auto';
+            } else {
+                this.style.overflowY = 'hidden';
+            }
+        });
+        
+        // Enviar mensaje cuando se presiona Enter (pero permitir nueva línea con Shift+Enter)
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Enviar mensaje cuando se hace clic en el botón
+        sendButton.addEventListener('click', sendMessage);
+        
+        // Función para enviar mensaje
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+            
+            // Añadir mensaje del usuario al chat
+            addMessage(message, 'user');
+            
+            // Limpiar input
+            userInput.value = '';
+            userInput.style.height = 'auto';
+            
+            // Mostrar indicador de carga
+            showLoading();
+            
+            // Enviar solicitud al webhook de N8N
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Ocultar indicador de carga
+                hideLoading();
+                
+                // Añadir respuesta del bot
+                addMessage(data.response || data.message || 'Lo siento, no pude procesar tu consulta en este momento.', 'bot');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                hideLoading();
+                
+                // Mostrar mensaje de error
+                addMessage('Lo siento, ha ocurrido un error al procesar tu consulta. Por favor, intenta nuevamente más tarde.', 'bot');
+            });
+        }
+        
+        // Función para añadir mensaje al chat
+        function addMessage(content, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = message ${type}-message;
+            
+            // Formatear texto para resaltar términos legales
+            if (type === 'bot') {
+                content = formatLegalTerms(content);
+            }
+            
+            const messageContent = document.createElement('div');
+            messageContent.innerHTML = content;
+            messageDiv.appendChild(messageContent);
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            timeDiv.textContent = getCurrentTime();
+            messageDiv.appendChild(timeDiv);
+            
+            messagesContainer.appendChild(messageDiv);
+            
+            // Scroll al final de los mensajes
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // Función para mostrar indicador de carga
+        function showLoading() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message bot-message loading';
+            loadingDiv.id = 'loading-indicator';
+            
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('span');
+                loadingDiv.appendChild(dot);
+            }
+            
+            messagesContainer.appendChild(loadingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Deshabilitar envío mientras se carga
+            sendButton.disabled = true;
+            userInput.disabled = true;
+        }
+        
+        // Función para ocultar indicador de carga
+        function hideLoading() {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            if (loadingIndicator) {
+                loadingIndicator.remove();
+            }
+            
+            // Habilitar envío nuevamente
+            sendButton.disabled = false;
+            userInput.disabled = false;
+            userInput.focus();
+        }
+        
+        // Obtener la hora actual
+        function getCurrentTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            return ${hours}:${minutes};
+        }
+        
+        // Función para formatear términos legales
+        function formatLegalTerms(text) {
+            // Lista de términos legales comunes en Paraguay
+            const legalTerms = [
+                'Código Civil', 'Código Penal', 'Constitución Nacional', 'amparo', 
+                'habeas corpus', 'habeas data', 'recurso de inconstitucionalidad',
+                'Corte Suprema de Justicia', 'Ministerio Público', 'Poder Judicial',
+                'Ley', 'Decreto', 'Resolución', 'Ordenanza', 'jurisprudencia'
+            ];
+            
+            // Resaltar citas de leyes (formato: "Ley XXXX/YYYY")
+            text = text.replace(/\b(Ley|Decreto|Resolución)\s+(\d+\/\d+|\d+\.\d+|\d+)/g, 
+                '<span class="law-citation">$1 $2</span>');
+            
+            // Resaltar términos legales
+            legalTerms.forEach(term => {
+                const regex = new RegExp(\\b${term}\\b, 'gi');
+                text = text.replace(regex, match => <span class="legal-term">${match}</span>);
+            });
+            
+            return text;
+        }
+        
+        // Enfocar el input al cargar la página
+        window.addEventListener('load', () => {
+            userInput.focus();
+        });
+    </script>
 </body>
 </html>
