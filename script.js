@@ -1,9 +1,9 @@
 async function enviarConsulta() {
   const pregunta = document.getElementById("pregunta").value.trim();
-  const sessionId = "usuario_demo_123"; // Podés reemplazar esto por algo dinámico si querés
+  const sessionId = "usuario_demo_123"; // Reemplazable si querés usar ID dinámico
 
   if (!pregunta) {
-    document.getElementById("respuesta").innerText = "Por favor, escribe una consulta.";
+    document.getElementById("respuesta").innerText = "⚠️ Por favor, escribe una consulta.";
     return;
   }
 
@@ -12,12 +12,16 @@ async function enviarConsulta() {
       method: "GET"
     });
 
+    if (!res.ok) {
+      throw new Error("Error en la respuesta del servidor");
+    }
+
     const data = await res.json();
 
     if (data.respuesta) {
-      document.getElementById("respuesta").innerText = data.respuesta;
+      document.getElementById("respuesta").innerText = "🧠 Respuesta:\n" + data.respuesta;
     } else {
-      document.getElementById("respuesta").innerText = "⚠️ No se recibió una respuesta válida del agente.";
+      document.getElementById("respuesta").innerText = "⚠️ No se recibió una respuesta válida.";
     }
   } catch (error) {
     console.error("Error:", error);
