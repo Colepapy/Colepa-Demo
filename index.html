@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colepa Chat Legal</title>
-    <link rel="stylesheet" href="../estilo/estilo.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>COLEPA - Consulta de Leyes del Paraguay</title>
+  <link rel="stylesheet" href="estilo.css" />
 </head>
 <body>
-    <div class="chat-container">
-        <div id="chat" class="chat-box"></div>
-        <div class="input-area">
-            <input type="text" id="user-input" placeholder="Escribí tu pregunta legal..." />
-            <button id="send-button">Enviar</button>
-        </div>
-    </div>
-    <script src="../script/script.js"></script>
+  <div class="app-container">
+    <header>
+      <h1>COLEPA - Consulta de Leyes del Paraguay</h1>
+    </header>
+    <div class="chat-window" id="chat-box"></div>
+    <form id="chat-form" class="input-area">
+      <input type="text" id="chat-input" placeholder="Escribí tu consulta legal..." autocomplete="off"/>
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
