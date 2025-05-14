@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COLEPA - Consulta de Leyes del Paraguay</title>
-    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCI+CiAgPHN0eWxlPgogICAgLnJlZCB7IGZpbGw6ICNENTIwMkM7IH0KICAgIC5ibHVlIHsgZmlsbDogIzAwMkQ2MjsgfQogICAgLndoaXRlIHsgZmlsbDogI0ZGRkZGRjsgfQogICAgLnllbGxvdyB7IGZpbGw6ICNEQkQ2MDA7IH0KICA8L3N0eWxlPgogIDxyZWN0IGNsYXNzPSJyZWQiIHg9IjAiIHk9IjAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIyNi42NjYiLz4KICA8cmVjdCBjbGFzcz0id2hpdGUiIHg9IjAiIHk9IjI2LjY2NiIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI2LjY2NiIvPgogIDxyZWN0IGNsYXNzPSJibHVlIiB4PSIwIiB5PSI1My4zMzIiIHdpZHRoPSI4MCIgaGVpZ2h0PSIyNi42NjYiLz4KICA8Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIyMCIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjREJENjAwIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MCw0MCkiPgogICAgPCEtLSBTw61tYm9sbyBkZSBKdXN0aWNpYSBjb24gZXN0aWxvIG1vZGVybm8gLS0+CiAgICA8cGF0aCBjbGFzcz0iYmx1ZSIgZD0iTTAsLTE1IEwtOCwwIEw4LDAgWiIgLz4KICAgIDxyZWN0IGNsYXNzPSJibHVlIiB4PSItMSIgeT0iMCIgd2lkdGg9IjIiIGhlaWdodD0iMTAiIC8+CiAgICA8cmVjdCBjbGFzcz0iYmx1ZSIgeD0iLTEwIiB5PSIxMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIiIC8+CiAgICAKICAgIDwhLS0gRWxlbWVudG9zIGZ1dHVyaXN0YXMgLS0+CiAgICA8Y2lyY2xlIGNsYXNzPSJ5ZWxsb3ciIGN4PSItOCIgY3k9Ii01IiByPSIxLjUiIC8+CiAgICA8Y2lyY2xlIGNsYXNzPSJ5ZWxsb3ciIGN4PSI4IiBjeT0iLTUiIHI9IjEuNSIgLz4KICAgIDxjaXJjbGUgY2xhc3M9InllbGxvdyIgY3g9IjAiIGN5PSItMTIiIHI9IjEiIC8+CiAgICAKICAgIDxwYXRoIGNsYXNzPSJyZWQiIGQ9Ik0tMTAsMTIgTDEwLDEyIEwxMCwxNSBMLTEwLDE1IFoiIC8+CiAgPC9nPgogIAogIDwhLS0gVGV4dG8gQ09MRVBBIGNvbiBlZmVjdG8gZGlnaXRhbCAtLT4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MCw3MCkiPgogICAgPHRleHQgeD0iMCIgeT0iMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iYm9sZCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI0ZGRkZGRiI+Q09MRVBBPC90ZXh0PgogICAgPHRleHQgeD0iMCIgeT0iNyIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNEQkQ2MDAiPkNPTlNVTFRBIERFIExFWUVTIERFTCBQQVJBR1VBWTwvdGV4dD4KICA8L2c+CiAgCiAgPCEtLSBFbGVtZW50b3MgZGVjb3JhdGl2b3MgZnV0dXJpc3RhcyAtLT4KICA8Y2lyY2xlIGNsYXNzPSJ5ZWxsb3ciIGN4PSIxMiIgY3k9IjEyIiByPSI0IiBvcGFjaXR5PSIwLjUiIC8+CiAgPGNpcmNsZSBjbGFzcz0ieWVsbG93IiBjeD0iNjgiIGN5PSI2OCIgcj0iNCIgb3BhY2l0eT0iMC41IiAvPgo8L3N2Zz4=">
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCI+CiAgPHN0eWxlPgogICAgLnJlZCB7IGZpbGw6ICNENTIwMkM7IH0KICAgIC5ibHVlIHsgZmlsbDogIzAwMkQ2MjsgfQogICAgLndoaXRlIHsgZmlsbDogI0ZGRkZGRjsgfQogIDwvc3R5bGU+CiAgPHJlY3QgY2xhc3M9InJlZCIgeD0iMCIgeT0iMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI2LjY2NiIvPgogIDxyZWN0IGNsYXNzPSJ3aGl0ZSIgeD0iMCIgeT0iMjYuNjY2IiB3aWR0aD0iODAiIGhlaWdodD0iMjYuNjY2Ii8+CiAgPHJlY3QgY2xhc3M9ImJsdWUiIHg9IjAiIHk9IjUzLjMzMiIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI2LjY2NiIvPgogIDxjaXJjbGUgY3g9IjQwIiBjeT0iNDAiIHI9IjE2IiBmaWxsPSIjRkZGRkZGIiBzdHJva2U9IiNEQkQ2MDAiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGNsYXNzPSJibHVlIiBkPSJNNDUgMzJMMzUgNDhINDVMNDAgMzJaIi8+CiAgPHRleHQgeD0iNDAiIHk9IjcwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iOCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNGRkZGRkYiPkNPTEVQQTwvdGV4dD4KPC9zdmc+">
 
     <style>
         :root {
@@ -326,35 +326,13 @@
                     .red { fill: #D5202C; }
                     .blue { fill: #002D62; }
                     .white { fill: #FFFFFF; }
-                    .yellow { fill: #DBD600; }
                 </style>
                 <rect class="red" x="0" y="0" width="80" height="26.666"/>
                 <rect class="white" x="0" y="26.666" width="80" height="26.666"/>
                 <rect class="blue" x="0" y="53.332" width="80" height="26.666"/>
-                <circle cx="40" cy="40" r="20" fill="#FFFFFF" stroke="#DBD600" stroke-width="2"/>
-                <g transform="translate(40,40)">
-                    <!-- Símbolo de Justicia con estilo moderno -->
-                    <path class="blue" d="M0,-15 L-8,0 L8,0 Z" />
-                    <rect class="blue" x="-1" y="0" width="2" height="10" />
-                    <rect class="blue" x="-10" y="10" width="20" height="2" />
-                    
-                    <!-- Elementos futuristas -->
-                    <circle class="yellow" cx="-8" cy="-5" r="1.5" />
-                    <circle class="yellow" cx="8" cy="-5" r="1.5" />
-                    <circle class="yellow" cx="0" cy="-12" r="1" />
-                    
-                    <path class="red" d="M-10,12 L10,12 L10,15 L-10,15 Z" />
-                </g>
-                
-                <!-- Texto COLEPA con efecto digital -->
-                <g transform="translate(40,70)">
-                    <text x="0" y="0" font-family="Arial" font-size="10" font-weight="bold" text-anchor="middle" fill="#FFFFFF">COLEPA</text>
-                    <text x="0" y="7" font-family="Arial" font-size="3" text-anchor="middle" fill="#DBD600">CONSULTA DE LEYES DEL PARAGUAY</text>
-                </g>
-                
-                <!-- Elementos decorativos futuristas -->
-                <circle class="yellow" cx="12" cy="12" r="4" opacity="0.5" />
-                <circle class="yellow" cx="68" cy="68" r="4" opacity="0.5" />
+                <circle cx="40" cy="40" r="16" fill="#FFFFFF" stroke="#DBD600" stroke-width="2"/>
+                <path class="blue" d="M45 32L35 48H45L40 32Z"/>
+                <text x="40" y="70" font-family="Arial" font-size="8" font-weight="bold" text-anchor="middle" fill="#FFFFFF">COLEPA</text>
             </svg>
             <div>
                 <h1 class="title">COLEPA</h1>
@@ -401,7 +379,7 @@
         const sendButton = document.getElementById('send-button');
         
         // URL del webhook de N8N ya configurada
-        const webhookUrl = 'https://mgcapra314.app.n8n.cloud/webhook/colepa';
+        const webhookUrl = 'https://mgcapra314.app.n8n.cloud/webhook/a4d322f3-78e1-434d-b81c-c78e302b1932';
         
         // Auto-resize para el textarea
         userInput.addEventListener('input', function() {
