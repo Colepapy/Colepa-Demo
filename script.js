@@ -1,63 +1,59 @@
-const webhookUrl = 'https://mgcapra314.app.n8n.cloud/webhook/colepa';
-
-const messagesDiv = document.getElementById('messages');
+const messagesContainer = document.getElementById('messages');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');
+const webhookUrl = 'https://mgcapra314.app.n8n.cloud/webhook/a4d322f3-78e1-434d-b81c-c78e302b1932';
 
-sendButton.addEventListener('click', sendMessage);
-userInput.addEventListener('keydown', e => {
+// Auto ajuste de altura del textarea
+userInput.addEventListener('input', () => {
+  userInput.style.height = 'auto';
+  userInput.style.height = userInput.scrollHeight + 'px';
+});
+
+// Enviar con Enter
+userInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }
 });
 
-function addMessage(text, type) {
-  const msg = document.createElement('div');
-  msg.className = `message ${type}-message`;
-  msg.textContent = text;
-  messagesDiv.appendChild(msg);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-}
+sendButton.addEventListener('click', sendMessage);
 
 function sendMessage() {
-  const text = userInput.value.trim();
-  if (!text) return;
+  const message = userInput.value.trim();
+  if (!message) return;
 
-  addMessage(text, 'user');
+  addMessage(message, 'user');
   userInput.value = '';
-  showLoading();
+  userInput.style.height = 'auto';
 
   fetch(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      data: text,
-      sessionId: 'cliente_web_001'
-    })
+    body: JSON.stringify({ message })
   })
     .then(res => res.json())
     .then(data => {
-      hideLoading();
-      addMessage(data.respuesta || '❗ Sin respuesta del agente.', 'bot');
+      addMessage(data.response || data.message || 'Respuesta no disponible.', 'bot');
     })
-    .catch(err => {
-      console.error(err);
-      hideLoading();
-      addMessage('❌ Error al conectar con el servidor.', 'bot');
+    .catch(() => {
+      addMessage('Error al conectar con el servidor.', 'bot');
     });
 }
 
-function showLoading() {
-  const loading = document.createElement('div');
-  loading.className = 'message bot-message';
-  loading.id = 'loading';
-  loading.textContent = 'Escribiendo...';
-  messagesDiv.appendChild(loading);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-}
+function addMessage(content, type) {
+  const div = document.createElement('div');
+  div.className = `message ${type}-message`;
 
-function hideLoading() {
-  const loading = document.getElementById('loading');
-  if (loading) loading.remove();
+  const contentDiv = document.createElement('div');
+  contentDiv.innerHTML = content;
+  div.appendChild(contentDiv);
+
+  const timeDiv = document.createElement('div');
+  timeDiv.className = 'message-time';
+  timeDiv.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  div.appendChild(timeDiv);
+
+  messagesContainer.appendChild(div);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
